@@ -1,11 +1,13 @@
 from flask import render_template, url_for, request, redirect, flash
 from app import app
+from app.forms import ContactForm
 
 
 @app.route('/')
 def main():
+    form = ContactForm()
     print(url_for('main'))
-    return render_template('main.html')
+    return render_template('main.html', form=form)
 
 
 @app.route('/login/')
