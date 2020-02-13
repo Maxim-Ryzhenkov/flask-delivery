@@ -1,11 +1,11 @@
 from flask import render_template, url_for, request, redirect, flash
 from app import app
-from app.forms import ContactForm
+from app.forms import ContactForm, SignupForm, SigninForm
 
 
 @app.route('/')
 def main():
-    form = ContactForm()
+    form = SignupForm()
     print(url_for('main'))
     return render_template('main.html', form=form)
 
