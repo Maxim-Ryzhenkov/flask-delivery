@@ -19,4 +19,4 @@ migrate = Migrate(app, db)
 
 mail = Mail(app)
 
-from app import views, models, errors, admin_views
+from app import views #, models, errors, admin_views

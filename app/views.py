@@ -4,29 +4,30 @@ from app import app
 
 @app.route('/')
 def main():
-    render_template(url_for('main'))
+    print(url_for('main'))
+    return render_template('main.html')
 
 
 @app.route('/login/')
 def login():
-    render_template(url_for('auth'))
+    return render_template('auth.html')
 
 
 @app.route('/logout/')
 def logout():
-    render_template(url_for('main'))
+    return redirect(url_for('/'))
 
 
 @app.route('/cart/')
 def cart():
-    render_template(url_for('cart'))
+    return render_template('cart.html')
 
 
 @app.route('/ordered/')
 def ordered():
-    render_template(url_for('ordered'))
+    render_template('ordered.html')
 
 
 @app.route('/account/')
 def account():
-    render_template(url_for('account'))
+    render_template('account.html')
