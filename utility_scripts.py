@@ -1,77 +1,24 @@
-import os
-import json
-
-from config import Config
+import random
 from app import db
-from app.models import Tutor, Booking, Goal, Pick, Message
+from app.models import User, Meal, Category, OrderState
 
 
-def get_data(file_name: str):
-    """ Прочитать данные из указанного файла json и вернуть их как словарь
-    Args:
-        file_name: полный путь к файлу .json
-    Returns:
-        data: dict - содержимое json файла в виде словаря
-    """
-    if not os.path.exists(file_name):
-        raise OSError(f"Файл не найден: {file_name}")
-    with open(file_name, 'r', encoding='utf8') as json_file:
-        data = json.load(json_file)
-    return data
-
-
-def get_tutors_data():
-    """ Прочитать данные о репетиторах из файла data.json и вернуть как словарь """
-    tutors_json = os.path.abspath(os.path.join(Config.ROOT_DIR, 'data.json'))
-    return get_data(tutors_json)
-
-
-def print_tutors_from_json():
-    """ Напечатать id и имя для всех репетиторов из переменной tutors в JSON """
-    tutors_data = get_tutors_data()['teachers']
-    for num, data in tutors_data.items():
-        print(data)
-
-
-def print_goals_from_json():
-    goals_data = get_tutors_data()['goals']
-    """ Напечатать все цели из переменной Goals в JSON """
-    for num, data in goals_data.items():
-        print(data)
-
-
-def transfer_goals_from_json_to_db():
-    """ Перенести записи о целях обучения из JSON в модель Goal """
-    goals_data = get_tutors_data()['goals']
-    for text_en, text_ru in goals_data.items():
-        new_goal = Goal(text_en=text_en, text_ru=text_ru)
-        db.session.add(new_goal)
+def create_test_users(user_list):
+    for name in user_list:
+        mail = "@".join(name.split(' ')) + '.ru'
+        # phone = '+7 (910) '+str(random.randint(1111111, 9999999))
+        new_user = User(username=name, email=mail)
+        if name == 'admin':
+            new_user.is_admin = True
+        new_user.set_password('password')
+        db.session.add(new_user)
     db.session.commit()
-    print_db_table(Goal)
+    print_db_table(User)
 
-
-def transfer_tutors_from_json_to_db():
-    """ Перенести записи о репетиторах из JSON в модель Tutor базы данных"""
-    tutors_data = get_tutors_data()['teachers']
-
-    for tutor_id, tutor_data in tutors_data.items():
-        new_tutor = Tutor(name=tutor_data['name'],
-                          about=tutor_data['about'],
-                          rating=tutor_data['rating'],
-                          price=tutor_data['price'],
-                          timetable=json.dumps(tutor_data['free']))
-        for tutors_goal in tutor_data['goals']:
-            goal = db.session.query(Goal).filter(Goal.text_en == tutors_goal).first()
-            new_tutor.goals.append(goal)
-        db.session.add(new_tutor)
-    db.session.commit()
-    print_db_table(Tutor)
 
 def print_db_table(model):
-    """ напечатать все зхаписи в таблице с указанной моделью данных"""
-    for record in db.session.query(model).all():
-        print(record)
-    print(f'Всего записей: {db.session.query(model).count()}')
+    for item in model.query.all():
+        print(item)
 
 
 def clear_db_table(model):
@@ -81,16 +28,57 @@ def clear_db_table(model):
     db.session.commit()
     print_db_table(model)
 
-# Для обновления базы предварительно надо удалить файл app.db и папку migrations
-# Затем активировать venv и набрать в терминале
-# 1. flask db init
-# 2. flask db migrate
-# 3. flask db upgrade
 
-# Затем раскомментировать и запустить. После запуска снова закомментировать
-#transfer_goals_from_json_to_db()
-#transfer_tutors_from_json_to_db()
+def create_categories(categories):
+    for item in categories:
+        new_category = Category()
+        new_category.title = item
+        db.session.add(new_category)
+    db.session.commit()
+    print_db_table(Category)
 
-# Убедиться что данные перенеслись корректно можно посмотрев вывод на печать
-# вместо model надо передать Tutor, Goal, Pick или Booking
-#print_db_table(Pick)
+
+def create_order_states(order_states):
+    for item in order_states:
+        new_state = OrderState()
+        new_state.title = item
+        db.session.add(new_state)
+    db.session.commit()
+    print_db_table(OrderState)
+
+
+def create_meals(meals):
+    for meal in meals:
+        new_meal = Meal()
+        new_meal.title = meal['title']
+        meal_category = Category.query.filter(Category.title == meal['category']).first()
+        new_meal.category_id = meal_category.id
+        new_meal.picture = meal['picture']
+        new_meal.price = int(random.randint(186, 687))
+        db.session.add(new_meal)
+    db.session.commit()
+    print_db_table(Meal)
+
+
+if __name__ == '__main__':
+    users = ['Аврор ﻿Абрамов', 'Инесса Селезнёва', 'Галена Исакова', 'Дорофея Смирнова', 'Донат Матиевский',
+             'admin', 'Руслан Карпов', "Василина Селиверстова", 'Анастасия Орехова', 'Герман Устинов']
+    categories = ['суши', 'стритфуд', 'пицца', 'новинки']
+    order_states = ['новый', 'выполняется', 'выполнен']
+    meals = [{'title': 'Ролл "Тьюринг"', 'category': 'суши', 'picture': 'dish1.jpg'},
+             {'title': 'Ролл "Хомский"', 'category': 'суши', 'picture': 'dish7.jpg'},
+             {'title': 'Острый ролл "Ада"', 'category': 'суши', 'picture': 'dish9.jpg'},
+             {'title': 'Гриль 500', 'category': 'стритфуд', 'picture': 'dish16.jpg'},
+             {'title': 'Бургер 404', 'category': 'стритфуд', 'picture': 'dish18.jpg'},
+             {'title': 'Ролл 301', 'category': 'стритфуд', 'picture': 'dish17.jpg'},
+             {'title': 'Пицца "Армин"', 'category': 'пицца', 'picture': 'dish10.jpg'},
+             {'title': 'Пицца "Гвидо"', 'category': 'пицца', 'picture': 'dish15.jpg'},
+             {'title': 'Пицца "Марк и Якоб"', 'category': 'пицца', 'picture': 'dish14.jpg'},
+             {'title': 'Ассорти "Степик"', 'category': 'новинки', 'picture': 'dish19.jpg'},
+             {'title': 'Фласковое рагу', 'category': 'новинки', 'picture': 'dish24.jpg'},
+             {'title': 'Шашлычок "Куратор"', 'category': 'новинки', 'picture': 'dish23'}]
+
+    # create_categories(categories)
+    # create_order_states(order_states)
+    # create_meals(meals)
+    # create_test_users(users)
