@@ -4,34 +4,33 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, URL
 
 
 class ContactForm(FlaskForm):
-    """Contact form."""
-    name = StringField('Name', [DataRequired()])
-    email = StringField('Email', [Email(message='Not a valid email address.'), DataRequired()])
-    body = TextAreaField('Message', [DataRequired(), Length(min=4, message='Your message is too short.')])
+    """ Форма отправки сообщения """
+    name = StringField('Имя', [DataRequired()])
+    email = StringField('Почта', [Email(message='Введите правильный адрес почты'), DataRequired()])
+    body = TextAreaField('Сообщение', [DataRequired(), Length(min=4, message='Ваше сообщение слишком короткое')])
     recaptcha = RecaptchaField()
-    submit = SubmitField('Submit')
+    submit = SubmitField('Отправить')
 
 
 class SignupForm(FlaskForm):
-    """Sign up for a user account."""
-    email = StringField('Email', [Email(message='Not a valid email address.'), DataRequired()])
-    password = PasswordField('Password', [DataRequired(message="Please enter a password.")])
-    confirmPassword = PasswordField('Repeat Password', [EqualTo(password, message='Passwords must match.')])
-    title = SelectField('Title', [DataRequired()],
-                        choices=[('Farmer', 'farmer'),
-                                 ('Corrupt Politician', 'politician'),
-                                 ('No-nonsense City Cop', 'cop'),
-                                 ('Professional Rocket League Player', 'rocket'),
-                                 ('Lonely Guy At A Diner', 'lonely'),
-                                 ('Pokemon Trainer', 'pokemon')])
-    # website = StringField('Website', validators=[URL()])
-    # birthday = DateField('Your Birthday')
+    """ Форма регистрации аккаунта """
+    name = StringField('Имя', [DataRequired()])
+    email = StringField('Почта', [Email(message='Введите правильный адрес почты'), DataRequired()])
+    password = PasswordField('Пароль', [DataRequired(message="Пожалуйста, введите пароль")])
+    confirmPassword = PasswordField('Подтверждение пароля', [EqualTo(password, message='Пароль должны совпадать')])
+    title = SelectField('Роль', [DataRequired()],
+                        choices=[('Фермер', 'farmer'),
+                                 ('Оборотень', 'werewolf'),
+                                 ('Полицейский', 'cop'),
+                                 ('Космонавт', 'astronaut'), ])
+    website = StringField('Вебсайт', validators=[URL()])
+    birthday = DateField('Дата рождения')
     recaptcha = RecaptchaField()
-    submit = SubmitField('Submit')
+    submit = SubmitField('Регистрация')
 
 
 class SigninForm(FlaskForm):
-    """Sign in for a user account."""
-    email = StringField('Email', [Email(message='Not a valid email address.'), DataRequired()])
-    password = PasswordField('Password', [DataRequired(message="Please enter a password.")])
-    submit = SubmitField('Submit')
+    """ Форма входа в аккаунт """
+    name = StringField('Имя или почта', [DataRequired()])
+    password = PasswordField('Пароль', [DataRequired(message="Пожалуйста, введите пароль")])
+    submit = SubmitField('Вход')
