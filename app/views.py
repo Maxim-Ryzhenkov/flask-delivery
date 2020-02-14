@@ -1,13 +1,14 @@
 from flask import render_template, url_for, request, redirect, flash
 from app import app
 from app.forms import ContactForm, SignupForm, SigninForm
+from app.models import Meal, Category
 
 
 @app.route('/')
 def main():
     form = SignupForm()
-    print(url_for('main'))
-    return render_template('main.html', form=form)
+    categories = Category.query.all()
+    return render_template('main.html', categories=categories)
 
 
 @app.route('/login/')
