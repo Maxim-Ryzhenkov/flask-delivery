@@ -18,7 +18,7 @@ def login():
 
 @app.route('/logout/')
 def logout():
-    return redirect(url_for('/'))
+    return redirect(url_for('main'))
 
 
 @app.route('/cart/')
