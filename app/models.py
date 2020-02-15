@@ -3,8 +3,8 @@ from hashlib import md5
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from time import time
-import jwt
-from app import app, db  # , login
+# import jwt
+from app import app, db, login
 
 
 class User(UserMixin, db.Model):
@@ -50,11 +50,9 @@ class User(UserMixin, db.Model):
             return
         return User.query.get(id)
 
-
-#
-# @login.user_loader
-# def load_user(id):
-#     return User.query.get(int(id))
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 class Category(db.Model):
@@ -84,7 +82,7 @@ class Meal(db.Model):
     orders = db.relationship("Order", secondary=meals_orders_table, back_populates="meals")
 
     def __repr__(self):
-        return f'<Meal {self.id}: {self.title}>'
+        return f'<Meal {self.id}: {self.title} {self.picture}>'
 
 
 class Order(db.Model):

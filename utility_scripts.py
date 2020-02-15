@@ -78,6 +78,12 @@ if __name__ == '__main__':
              {'title': 'Фласковое рагу', 'category': 'новинки', 'picture': 'dish24.jpg'},
              {'title': 'Шашлычок "Куратор"', 'category': 'новинки', 'picture': 'dish23'}]
 
+    # meal = Meal.query.get(2)
+    # meal.picture = 'dish1.jpg'
+    # db.session.add(meal)
+    # db.session.commit()
+    # print_db_table(Meal)
+
     # create_categories(categories)
     # create_order_states(order_states)
     # create_meals(meals)

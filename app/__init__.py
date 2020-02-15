@@ -14,10 +14,10 @@ migrate = Migrate(app, db)
 
 public_key = app.config['RECAPTCHA_PUBLIC_KEY']
 
-# login = LoginManager(app)
-#
-# login.login_view = 'login'
-# login.login_message = "Пожалуйста, войдите, чтобы открыть эту страницу."
+login = LoginManager(app)
+
+login.login_view = 'login'
+login.login_message = "Пожалуйста, войдите, чтобы открыть эту страницу."
 
 mail = Mail(app)
 
