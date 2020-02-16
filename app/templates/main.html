@@ -27,7 +27,8 @@
                     <h4 class="h5 card-title">{{ meal.title }}</h4>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                         card's content.</p>
-                    <button type="button" class="btn btn-danger">В корзину</button>
+                    <a href="{{ url_for('cart_add', product_id = meal.id) }}" role="button" class="btn btn-danger">В корзину</a>
+                    Ссылка кнопки = {{ url_for('cart_add', product_id = meal.id) }}
                 </div>
             </div>
         </div>

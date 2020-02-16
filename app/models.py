@@ -89,16 +89,15 @@ class Order(db.Model):
     __tablename__ = "orders"
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime, default=datetime.utcnow)
-    amount = db.Column(db.Float, nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
     state_id = db.Column(db.Integer, db.ForeignKey("order_states.id"))
     state = db.relationship("OrderState", back_populates="orders")
-    picture = db.Column(db.String(64), unique=True)
     meals = db.relationship("Meal", secondary=meals_orders_table, back_populates="orders")
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     user = db.relationship("User", back_populates="orders")
 
     def __repr__(self):
-        return f'<Order {self.id}: {self.user} - {self.amount} [{", ".join(self.meals)}]>'
+        return f'<Order {self.id}: {self.user.username} - {self.amount} [{", ".join([m.title for m in self.meals])}]>'
 
 
 class OrderState(db.Model):

@@ -3,7 +3,7 @@ from wtforms import StringField, TextAreaField, SubmitField, PasswordField, Date
 from wtforms.validators import DataRequired, Length, Email, EqualTo, URL
 
 
-class ContactForm(FlaskForm):
+class MessageForm(FlaskForm):
     """ Форма отправки сообщения """
     name = StringField('Имя', [DataRequired()])
     email = StringField('Почта', [Email(message='Введите правильный адрес почты'), DataRequired()])
@@ -34,3 +34,13 @@ class SigninForm(FlaskForm):
     name = StringField('Имя или почта', [DataRequired()])
     password = PasswordField('Пароль', [DataRequired(message="Пожалуйста, введите пароль")])
     submit = SubmitField('Вход')
+
+
+class ContactForm(FlaskForm):
+    """ Форма отправки контактов """
+    name = StringField('Имя', [DataRequired()])
+    email = StringField('Почта', [Email(message='Введите правильный адрес почты'), DataRequired()])
+    address = StringField('Адрес', [DataRequired(), Length(min=6, message='Введите полный адрес')])
+    body = TextAreaField('Сообщение', [DataRequired(), Length(min=4, message='Ваше сообщение слишком короткое')])
+    #recaptcha = RecaptchaField()
+    submit = SubmitField('Отправить')

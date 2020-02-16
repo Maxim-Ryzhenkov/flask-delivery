@@ -1,6 +1,6 @@
 import random
 from app import db
-from app.models import User, Meal, Category, OrderState
+from app.models import User, Meal, Category, OrderState, Order
 
 
 def create_test_users(user_list):
@@ -76,7 +76,7 @@ if __name__ == '__main__':
              {'title': 'Пицца "Марк и Якоб"', 'category': 'пицца', 'picture': 'dish14.jpg'},
              {'title': 'Ассорти "Степик"', 'category': 'новинки', 'picture': 'dish19.jpg'},
              {'title': 'Фласковое рагу', 'category': 'новинки', 'picture': 'dish24.jpg'},
-             {'title': 'Шашлычок "Куратор"', 'category': 'новинки', 'picture': 'dish23'}]
+             {'title': 'Шашлычок "Куратор"', 'category': 'новинки', 'picture': 'dish23.jpg'}]
 
     # meal = Meal.query.get(2)
     # meal.picture = 'dish1.jpg'
@@ -88,3 +88,5 @@ if __name__ == '__main__':
     # create_order_states(order_states)
     # create_meals(meals)
     # create_test_users(users)
+    #clear_db_table(Meal)
+    # print_db_table(Order)
