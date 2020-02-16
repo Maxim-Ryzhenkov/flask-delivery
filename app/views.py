@@ -20,7 +20,8 @@ def main():
 
 @app.route('/login/')
 def login():
-    return render_template('auth.html')
+    form = SigninForm()
+    return render_template('auth.html', form=form)
 
 
 @app.route('/logout/')
