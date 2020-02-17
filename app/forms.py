@@ -25,7 +25,7 @@ class SignupForm(FlaskForm):
                                  ('Космонавт', 'astronaut'), ])
     website = StringField('Вебсайт', validators=[URL()])
     birthday = DateField('Дата рождения')
-    recaptcha = RecaptchaField()
+    #recaptcha = RecaptchaField()
     submit = SubmitField('Регистрация')
 
 

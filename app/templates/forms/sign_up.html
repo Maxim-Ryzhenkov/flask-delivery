@@ -1,8 +1,10 @@
-<div class="formwrapper">
-    <h2 class="title">Регистрация</h2>
-    <form method="POST" action="/">
 
-        <div class="form-group">{{ form.email.label }} {{ form.email(class="form-control") }}
+<!--Форма регистрации-->
+
+<div class="formwrapper">
+    <form method="POST" action="">
+
+        <div class="form-group">{{ form.email.label(class="text-muted") }} {{ form.email(class="form-control") }}
             {% if form.email.errors %}
             <ul class="errors">
                 {% for error in form.email.errors %}
@@ -11,7 +13,7 @@
             </ul>
             {% endif %}
         </div>
-        <div class="form-group">{{ form.password.label }} {{ form.password(class="form-control") }}
+        <div class="form-group">{{ form.password.label(class="text-muted") }} {{ form.password(class="form-control") }}
             {% if form.password.errors %}
             <ul class="errors">
                 {% for error in form.password.errors %}
@@ -20,7 +22,7 @@
             </ul>
             {% endif %}
         </div>
-        <div class="form-group">{{ form.confirmPassword.label }} {{ form.confirmPassword(class="form-control") }}
+        <div class="form-group">{{ form.confirmPassword.label(class="text-muted") }} {{ form.confirmPassword(class="form-control") }}
             {% if form.password.errors %}
             <ul class="errors">
                 {% for error in form.password.errors %}
@@ -30,6 +32,6 @@
             {% endif %}
         </div>
         {{ form.recaptcha }}
-        <div class="form-group">{{ form.submit(class="btn btn-danger") }}</div>
+        <div class="form-group">{{ form.submit(class="btn btn-danger btn-lg btn-block mt-5") }}</div>
     </form>
 </div>

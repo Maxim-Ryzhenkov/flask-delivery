@@ -29,6 +29,12 @@ def logout():
     return redirect(url_for('main'))
 
 
+@app.route('/register/')
+def sign_up():
+    form = SignupForm()
+    return render_template('sign_up.html', form=form)
+
+
 @app.route('/cart/', methods=['GET', 'POST'])
 def cart():
     form = ContactForm()
