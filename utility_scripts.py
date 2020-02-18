@@ -66,17 +66,17 @@ if __name__ == '__main__':
     categories = ['суши', 'стритфуд', 'пицца', 'новинки']
     order_states = ['новый', 'выполняется', 'выполнен']
     meals = [{'title': 'Ролл "Тьюринг"', 'category': 'суши', 'picture': 'dish1.jpg'},
-             {'title': 'Ролл "Хомский"', 'category': 'суши', 'picture': 'dish7.jpg'},
-             {'title': 'Острый ролл "Ада"', 'category': 'суши', 'picture': 'dish9.jpg'},
-             {'title': 'Гриль 500', 'category': 'стритфуд', 'picture': 'dish16.jpg'},
-             {'title': 'Бургер 404', 'category': 'стритфуд', 'picture': 'dish18.jpg'},
-             {'title': 'Ролл 301', 'category': 'стритфуд', 'picture': 'dish17.jpg'},
-             {'title': 'Пицца "Армин"', 'category': 'пицца', 'picture': 'dish10.jpg'},
-             {'title': 'Пицца "Гвидо"', 'category': 'пицца', 'picture': 'dish15.jpg'},
-             {'title': 'Пицца "Марк и Якоб"', 'category': 'пицца', 'picture': 'dish14.jpg'},
-             {'title': 'Ассорти "Степик"', 'category': 'новинки', 'picture': 'dish19.jpg'},
-             {'title': 'Фласковое рагу', 'category': 'новинки', 'picture': 'dish24.jpg'},
-             {'title': 'Шашлычок "Куратор"', 'category': 'новинки', 'picture': 'dish23.jpg'}]
+             {'title': 'Ролл "Хомский"', 'category': 'суши', 'picture': 'dish7.jpeg'},
+             {'title': 'Острый ролл "Ада"', 'category': 'суши', 'picture': 'dish9.jpeg'},
+             {'title': 'Гриль 500', 'category': 'стритфуд', 'picture': 'dish16.jpeg'},
+             {'title': 'Бургер 404', 'category': 'стритфуд', 'picture': 'dish18.jpeg'},
+             {'title': 'Ролл 301', 'category': 'стритфуд', 'picture': 'dish17.jpeg'},
+             {'title': 'Пицца "Армин"', 'category': 'пицца', 'picture': 'dish10.jpeg'},
+             {'title': 'Пицца "Гвидо"', 'category': 'пицца', 'picture': 'dish15.jpeg'},
+             {'title': 'Пицца "Марк и Якоб"', 'category': 'пицца', 'picture': 'dish14.jpeg'},
+             {'title': 'Ассорти "Степик"', 'category': 'новинки', 'picture': 'dish19.jpeg'},
+             {'title': 'Фласковое рагу', 'category': 'новинки', 'picture': 'dish24.jpeg'},
+             {'title': 'Шашлычок "Куратор"', 'category': 'новинки', 'picture': 'dish23.jpeg'}]
 
     # meal = Meal.query.get(2)
     # meal.picture = 'dish1.jpg'
