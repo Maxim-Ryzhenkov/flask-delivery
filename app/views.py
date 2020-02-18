@@ -2,36 +2,71 @@ from flask import render_template, url_for, request, redirect, flash, session
 from app import app, db
 from app.forms import ContactForm, SignupForm, SigninForm
 from app.models import Meal, Category, Order, OrderState, User
+from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.urls import url_parse
 
 
 @app.route('/')
 def main():
-    form = SignupForm()
     categories = Category.query.all()
-
     my_cart = session.get('cart', [])
     cart_info = ""
     if my_cart:
         products = [Meal.query.get(product_id) for product_id in my_cart]
         total_amount = sum(product.price for product in products)
-        cart_info = f"Блюд: {len(my_cart)} на {total_amount} рублей"
+        cart_info = f"(товаров: {len(my_cart)} на {total_amount} рублей)"
     return render_template('main.html', categories=categories, cart_info=cart_info)
 
 
-@app.route('/login/')
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main'))
     form = SigninForm()
+    if form.validate_on_submit():
+        user = User.query.filter(User.username == form.name.data).first()
+        if user is None:
+            user = User.query.filter(User.email == form.name.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Неверное имя или пароль')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('main')
+        return redirect(next_page)
+
     return render_template('auth.html', form=form)
 
 
 @app.route('/logout/')
 def logout():
+    logout_user()
     return redirect(url_for('main'))
 
 
-@app.route('/register/')
+@app.route('/register/', methods=['GET', 'POST'])
 def sign_up():
+    if current_user.is_authenticated:
+        return redirect(url_for('main'))
     form = SignupForm()
+    if form.validate_on_submit():
+        user = User.query.filter(User.username == form.name.data).first()
+        if user:
+            flash('Пользователь с таким именем уже зарегистрирован')
+            return redirect('register')
+        user = User.query.filter(User.email == form.name.data).first()
+        if user:
+            flash('Пользователь с такой почтой уже зарегистрирован')
+            return redirect('register')
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Поздравляем, вы зарегистрированы!')
+        return redirect(url_for('login'))
+
     return render_template('sign_up.html', form=form)
 
 
@@ -94,6 +129,8 @@ def ordered():
     return render_template('ordered.html')
 
 
-@app.route('/account/')
-def account():
-    return render_template('account.html')
+@app.route('/account/<username>/')
+@login_required
+def account(username):
+    user = User.query.filter(User.username == str(username)).first_or_404()
+    return render_template('account.html', user=user)
