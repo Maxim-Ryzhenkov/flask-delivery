@@ -18,13 +18,13 @@ class SignupForm(FlaskForm):
     email = StringField('Почта', [Email(message='Введите правильный адрес почты'), DataRequired()])
     password = PasswordField('Пароль', [DataRequired(message="Пожалуйста, введите пароль")])
     confirmPassword = PasswordField('Подтверждение пароля', [EqualTo(password, message='Пароль должны совпадать')])
-    title = SelectField('Роль', [DataRequired()],
-                        choices=[('Фермер', 'farmer'),
-                                 ('Оборотень', 'werewolf'),
-                                 ('Полицейский', 'cop'),
-                                 ('Космонавт', 'astronaut'), ])
-    website = StringField('Вебсайт', validators=[URL()])
-    birthday = DateField('Дата рождения')
+    # title = SelectField('Роль', [DataRequired()],
+    #                     choices=[('Фермер', 'farmer'),
+    #                              ('Оборотень', 'werewolf'),
+    #                              ('Полицейский', 'cop'),
+    #                              ('Космонавт', 'astronaut'), ])
+    # website = StringField('Вебсайт', validators=[URL()])
+    # birthday = DateField('Дата рождения')
     #recaptcha = RecaptchaField()
     submit = SubmitField('Регистрация')
 

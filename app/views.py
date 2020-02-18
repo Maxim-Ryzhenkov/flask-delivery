@@ -51,13 +51,17 @@ def sign_up():
     if current_user.is_authenticated:
         return redirect(url_for('main'))
     form = SignupForm()
+
     if form.validate_on_submit():
+        print('123213213213213213213213213213213213213')
         user = User.query.filter(User.username == form.name.data).first()
         if user:
+            print('Пользователь с таким именем уже зарегистрирован')
             flash('Пользователь с таким именем уже зарегистрирован')
             return redirect('register')
         user = User.query.filter(User.email == form.name.data).first()
         if user:
+            print('Пользователь с такой почтой уже зарегистрирован')
             flash('Пользователь с такой почтой уже зарегистрирован')
             return redirect('register')
         user = User(username=form.username.data, email=form.email.data)

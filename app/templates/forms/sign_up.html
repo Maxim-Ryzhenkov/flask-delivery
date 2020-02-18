@@ -4,7 +4,7 @@
 <div class="formwrapper">
     <form method="POST" action="">
 
-        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
 
         <div class="form-group">{{ form.name.label(class="text-muted") }} {{ form.name(class="form-control") }}
             {% if form.name.errors %}
