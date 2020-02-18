@@ -89,4 +89,4 @@ if __name__ == '__main__':
     # create_meals(meals)
     # create_test_users(users)
     #clear_db_table(Meal)
-    # print_db_table(Order)
+    print_db_table(User)

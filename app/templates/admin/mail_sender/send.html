@@ -1,0 +1,30 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<div class="container" style="margin-top:50px">
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <h3>Отправить письмо</h3>
+            <br>
+            <form action="" method="POST">
+                <div class="form-group">
+                {{ form.recipient(class="form-control", placeholder="адрес почты") }}
+                </div>
+                <div class="form-group">
+                {{ form.subject(class="form-control", placeholder="Тема сообщения") }}
+                </div>
+                <div class="form-group">
+                {{ form.message(class="form-control", placeholder="Текст сообщения") }}
+                </div>
+                <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
