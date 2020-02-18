@@ -2,6 +2,9 @@
 
 <div class="formwrapper">
     <form class="form-signin pt-5" method="POST" action="">
+
+        {{ form.csrf_token }}
+
         <div class="form-group">{{ form.name.label(class="text-muted") }} {{ form.name(class="form-control") }}
             {% if form.name.errors %}
             <ul class="errors">
@@ -11,6 +14,7 @@
             </ul>
             {% endif %}
         </div>
+
         <div class="form-group">{{ form.password.label(class="text-muted") }} {{
             form.password(class="form-control") }}
             {% if form.password.errors %}
@@ -21,6 +25,10 @@
             </ul>
             {% endif %}
         </div>
+
+        <div class="form-group">{{ form.remember_me.label(class="text-muted") }} {{ form.remember_me }}</div>
+
         {{ form.submit(class="btn btn-danger btn-block btn-lg mt-5") }}
+
     </form>
 </div>

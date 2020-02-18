@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, TextAreaField, SubmitField, PasswordField, DateField, SelectField
+from wtforms import StringField, TextAreaField, SubmitField, PasswordField, DateField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, URL
 
 
@@ -33,6 +33,7 @@ class SigninForm(FlaskForm):
     """ Форма входа в аккаунт """
     name = StringField('Имя или почта', [DataRequired()])
     password = PasswordField('Пароль', [DataRequired(message="Пожалуйста, введите пароль")])
+    remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Вход')
 
 

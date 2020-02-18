@@ -4,6 +4,18 @@
 <div class="formwrapper">
     <form method="POST" action="">
 
+        {{ form.csrf_token }}
+
+        <div class="form-group">{{ form.name.label(class="text-muted") }} {{ form.name(class="form-control") }}
+            {% if form.name.errors %}
+            <ul class="errors">
+                {% for error in form.name.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
         <div class="form-group">{{ form.email.label(class="text-muted") }} {{ form.email(class="form-control") }}
             {% if form.email.errors %}
             <ul class="errors">
@@ -13,6 +25,7 @@
             </ul>
             {% endif %}
         </div>
+
         <div class="form-group">{{ form.password.label(class="text-muted") }} {{ form.password(class="form-control") }}
             {% if form.password.errors %}
             <ul class="errors">
@@ -22,6 +35,7 @@
             </ul>
             {% endif %}
         </div>
+
         <div class="form-group">{{ form.confirmPassword.label(class="text-muted") }} {{ form.confirmPassword(class="form-control") }}
             {% if form.password.errors %}
             <ul class="errors">
@@ -31,7 +45,7 @@
             </ul>
             {% endif %}
         </div>
-        {{ form.recaptcha }}
+
         <div class="form-group">{{ form.submit(class="btn btn-danger btn-lg btn-block mt-5") }}</div>
     </form>
 </div>

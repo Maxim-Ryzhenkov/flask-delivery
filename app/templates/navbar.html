@@ -27,10 +27,10 @@
                     {% set c = "nav-item active" %}{% else %} {% set c = "nav-item" %}{% endif %}
                     <li class="{{ c }}"><a class="nav-link" href="{{ url_for('login') }}">Вход</a></li>
                 {% else %}
-                    {% if request.path == url_for('account') %}
+                    {% if request.path == url_for('account', username=current_user.username) %}
                     {% set c = "nav-item active" %}{% else %} {% set c = "nav-item" %}{% endif %}
                     <li class="{{ c }}">
-                        <a class="nav-link" href="{{ url_for('account', username=current_user.username) }}">Профиль</a></li>
+                        <a class="nav-link" href="{{ url_for('account', username=current_user.username) }}">Личный кабинет</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Выход</a></li>
                 {% endif %}
                 {% if request.path == url_for('cart') %}

@@ -37,18 +37,19 @@ class User(UserMixin, db.Model):
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
 
-    def get_reset_password_token(self, expires_in=600):
-        return jwt.encode(
-            {'reset_password': self.id, 'exp': time() + expires_in},
-            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+    # def get_reset_password_token(self, expires_in=600):
+    #     return jwt.encode(
+    #         {'reset_password': self.id, 'exp': time() + expires_in},
+    #         app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+    #
+    # @staticmethod
+    # def verify_reset_password_token(token):
+    #     try:
+    #         id = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
+    #     except:
+    #         return
+    #     return User.query.get(id)
 
-    @staticmethod
-    def verify_reset_password_token(token):
-        try:
-            id = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
-        except:
-            return
-        return User.query.get(id)
 
 @login.user_loader
 def load_user(id):
@@ -107,7 +108,7 @@ class OrderState(db.Model):
     orders = db.relationship("Order", back_populates="state")
 
     def __repr__(self):
-        return f'<Category {self.id}: {self.title}>'
+        return f'{self.title.capitalize()}'
 
 
 db.create_all()

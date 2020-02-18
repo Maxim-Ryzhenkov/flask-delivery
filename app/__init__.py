@@ -3,6 +3,7 @@ from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_moment import Moment
 
 from config import Config
 
@@ -19,6 +20,8 @@ login = LoginManager(app)
 login.login_view = 'login'
 login.login_message = "Пожалуйста, войдите, чтобы открыть эту страницу."
 
+moment = Moment(app)
+
 mail = Mail(app)
 
-from app import views #, models, errors, admin_views
+from app import views, models, errors, admin_views

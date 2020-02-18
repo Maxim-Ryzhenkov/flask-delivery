@@ -7,6 +7,10 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    {{ moment.lang('ru') }}
 </head>
 
 <body>
@@ -33,7 +37,7 @@
         <ul class="navbar-nav mr-auto">
             <p class="h4 nav-link">Stepik Delivery</p>
         </ul>
-        <a class="text-muted" href="#">Project author 2020</a>
+        <a class="text-muted" href="#">Максим Рыженков 2020</a>
     </nav>
 </footer>
 
