@@ -4,10 +4,12 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from app.models import User
 
 
-class MessageForm(FlaskForm):
+class MailForm(FlaskForm):
     """ Форма отправки сообщения """
-    name = StringField('Имя',
-                       validators=[DataRequired()])
+    subject = StringField('Тема сообщения',
+                          validators=[DataRequired(message="Невежливо игнорировать тему сообщения"),
+                                      Length(min=2, max=50,
+                                             message="Тема должна быть не короче 2 и не длиннее 50 символов")])
     email = StringField('Почта',
                         validators=[Email(message='Введите правильный адрес почты'),
                                     DataRequired()])
@@ -26,7 +28,7 @@ class RegistrationForm(FlaskForm):
                                               message="Имя должно быть не короче 2 и не длиннее 25 символов")])
     email = StringField('Почта',
                         validators=[DataRequired(message="Email не может быть пустым или состоять из пробелов"),
-                                    Email(message="Введите корректный email в формате ****@****.**")])
+                                    Email(message="Введите корректный email в формате your@email.address")])
     password = PasswordField('Придумайте пароль длиной от 4 до 20 символов',
                              validators=[DataRequired(),
                                          Length(min=4, max=20)])
@@ -56,18 +58,18 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Вход')
 
 
-class ContactForm(FlaskForm):
-    """ Форма отправки контактов """
-    name = StringField('Имя',
-                       validators=[DataRequired()])
+class OrderForm(FlaskForm):
+    """ Форма регистрации заказа """
+    username = StringField('Имя',
+                           validators=[DataRequired(message="Имя не может быть пустым или состоять из пробелов"),
+                                       Length(min=2, max=25,
+                                              message="Имя должно быть не короче 2 и не длиннее 25 символов")])
     email = StringField('Почта',
-                        validators=[Email(message='Введите правильный адрес почты'),
-                                    DataRequired()])
+                        validators=[DataRequired(message="Email не может быть пустым или состоять из пробелов"),
+                                    Email(message="Введите корректный email в формате your@email.address")])
     address = StringField('Адрес',
                           validators=[DataRequired(),
                                       Length(min=6, message='Введите полный адрес')])
-    body = TextAreaField('Сообщение',
-                         validators=[DataRequired(),
-                                     Length(min=4, message='Ваше сообщение слишком короткое')])
+    body = TextAreaField('Сообщение')
     # recaptcha = RecaptchaField()
     submit = SubmitField('Отправить')

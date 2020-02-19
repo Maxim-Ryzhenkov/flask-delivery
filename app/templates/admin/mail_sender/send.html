@@ -9,20 +9,7 @@
         <div class="col-md-6">
             <h3>Отправить письмо</h3>
             <br>
-            <form action="" method="POST">
-                <div class="form-group">
-                {{ form.recipient(class="form-control", placeholder="адрес почты") }}
-                </div>
-                <div class="form-group">
-                {{ form.subject(class="form-control", placeholder="Тема сообщения") }}
-                </div>
-                <div class="form-group">
-                {{ form.message(class="form-control", placeholder="Текст сообщения") }}
-                </div>
-                <div class="form-group">
-                {{ form.submit(class="btn btn-primary") }}
-                </div>
-            </form>
+            {% include 'forms/mail_form.html' %}
         </div>
     </div>
 </div>

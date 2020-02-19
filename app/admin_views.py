@@ -5,7 +5,7 @@ from app import db, app, mail
 from flask_mail import Message
 from app.models import User, Order, Meal
 from flask import abort, request, flash
-from app.forms import MessageForm
+from app.forms import MailForm
 
 
 class DashboardView(AdminIndexView):
@@ -22,7 +22,7 @@ class MailerView(BaseView):
     @expose('/', methods=['GET', 'POST'])
     @login_required
     def mailer(self):
-        form = MessageForm()
+        form = MailForm()
 
         if request.method == 'POST':
             # отправка письма
@@ -67,7 +67,7 @@ class OrderView(ModelView):
    # column_searchable_list = ['user']
     column_labels = dict(date='Дата/время', user='Клиент', state='Статус', amount='Сумма', meals='Блюда')
     column_list = ['date', 'user', 'state', 'amount', 'meals']
-  #  column_sortable_list = ['date', ('user', 'user.username'), ('state', 'state.title'), 'amount']
+    column_sortable_list = ['date', ('user', 'user.username'), ('state', 'state.title'), 'amount']
 
 
 admin = Admin(app, template_mode='bootstrap3', name='Админка', index_view=DashboardView(name='Статистика'))

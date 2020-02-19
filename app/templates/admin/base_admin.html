@@ -1,0 +1,9 @@
+{% extends admin/master.html %}
+
+{{ super() }}
+{% block head %}
+    {{ super() }}
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    {{ moment.lang('ru') }}
+{% endblock %}

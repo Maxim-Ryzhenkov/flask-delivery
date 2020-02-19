@@ -1,8 +1,8 @@
 from flask import render_template, url_for, request, redirect, flash, session
 from app import app, db
-from app.forms import ContactForm, LoginForm, RegistrationForm
+from app.forms import OrderForm, LoginForm, RegistrationForm
 from app.models import Meal, Category, Order, OrderState, User
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user, login_required, user_logged_in
 from werkzeug.urls import url_parse
 
 
@@ -44,6 +44,7 @@ def login():
 @app.route('/logout/')
 def logout():
     logout_user()
+    session['cart'] = []
     return redirect(url_for('main'))
 
 
@@ -64,28 +65,28 @@ def sign_up():
 
 @app.route('/cart/', methods=['GET', 'POST'])
 def cart():
-    form = ContactForm()
+    form = OrderForm()
 
     my_cart = session.get('cart', [])
     title = f"Блюд в корзине: {len(my_cart)}" if my_cart else "Ваша корзина пуста"
     products = [Meal.query.get(product_id) for product_id in my_cart]
     total_amount = sum(product.price for product in products)
     total_amount_msg = f"Всего товаров на {total_amount} рублей"
+    if request.method == 'GET' and current_user.is_authenticated:
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        if current_user.address:
+            form.address.data = current_user.address
 
-    if not form.validate_on_submit():
-        print('Форма не принята!')
-
-    if request.method == 'POST':
-        print(form.data)
+    if form.validate_on_submit():
         new_order = Order()
         new_order.amount = total_amount
         new_order.state = OrderState.query.filter(OrderState.title == 'новый').first()
-        new_order.user = User.query.get(1)
+        new_order.user = current_user
         db.session.add(new_order)
         for item in my_cart:
             meal = Meal.query.get(item)
             new_order.meals.append(meal)
-        print(new_order)
         db.session.commit()
         session['cart'] = []
         return redirect('/ordered/')
@@ -96,9 +97,6 @@ def cart():
 def cart_add(product_id):
     purchases = session.get('cart', [])
     product = Meal.query.get_or_404(product_id)
-    print(product_id)
-    print(type(product_id))
-    print(product)
     purchases.append(product_id)
     session['cart'] = purchases
     flash(f'Товар "{product.title}" добавлен в корзину.')

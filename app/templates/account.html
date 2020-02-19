@@ -17,9 +17,9 @@
                                 <span class="h5 font-weight-bold">{{ moment(order.date).format('LL') }} - </span>
                                 <span class="h5">{{ order.amount }} Р</span>
                             </div>
-                            {% if order.state == 'готово' %} {% set color='success' %}
-                            {% else %} {% set color='primary' %} {% endif %}
-                            <div class="col-3 col-lg-2 ml-5 py-2 badge badge-{{ color }} text-wrap">{{ order.state|capitalize }}</div>
+                            {% if order.state.title == 'выполнен' %} {% set color='badge-success' %}
+                            {% else %} {% set color='badge-primary' %} {% endif %}
+                            <div class="col-3 col-lg-2 ml-5 py-2 badge {{ color }} text-wrap">{{ order.state|capitalize }}</div>
                         </div>
                     </li>
                     <div class="card-body">
