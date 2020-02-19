@@ -20,7 +20,7 @@ class User(UserMixin, db.Model):
     orders = db.relationship("Order", back_populates="user")
 
     def __repr__(self):
-        return f'<User {self.id}: {self.username}>'
+        return f'{self.username}'
 
     def __init__(self, username, email):
         self.username = username
@@ -63,7 +63,7 @@ class Category(db.Model):
     meals = db.relationship("Meal", back_populates="category")
 
     def __repr__(self):
-        return f'<Category {self.id}: {self.title}>'
+        return f'{self.title.capitalize()}'
 
 
 meals_orders_table = db.Table('meals_orders',
@@ -83,7 +83,7 @@ class Meal(db.Model):
     orders = db.relationship("Order", secondary=meals_orders_table, back_populates="meals")
 
     def __repr__(self):
-        return f'<Meal {self.id}: {self.title} {self.picture}>'
+        return f'{self.title.capitalize()}'
 
 
 class Order(db.Model):
@@ -98,7 +98,7 @@ class Order(db.Model):
     user = db.relationship("User", back_populates="orders")
 
     def __repr__(self):
-        return f'<Order {self.id}: {self.user.username} - {self.amount} [{", ".join([m.title for m in self.meals])}]>'
+        return f'Order by {self.user.username} - {self.amount} [{", ".join([m.title for m in self.meals])}]'
 
 
 class OrderState(db.Model):
