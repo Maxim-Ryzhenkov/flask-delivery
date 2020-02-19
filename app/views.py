@@ -1,6 +1,6 @@
 from flask import render_template, url_for, request, redirect, flash, session
 from app import app, db
-from app.forms import ContactForm, SignupForm, SigninForm
+from app.forms import ContactForm, LoginForm, RegistrationForm
 from app.models import Meal, Category, Order, OrderState, User
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -22,17 +22,18 @@ def main():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main'))
-    form = SigninForm()
+    form = LoginForm()
+
     if form.validate_on_submit():
-        user = User.query.filter(User.username == form.name.data).first()
-        if user is None:
-            user = User.query.filter(User.email == form.name.data).first()
+        user_query = db.session.query(User).filter(
+            db.or_(User.username == form.username.data, User.email == form.username.data))
+        user = user_query.first()
         if user is None or not user.check_password(form.password.data):
-            flash('Неверное имя или пароль')
+            flash('Неверное имя или пароль.')
             return redirect(url_for('login'))
+
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
-
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('main')
         return redirect(next_page)
@@ -49,29 +50,16 @@ def logout():
 @app.route('/register/', methods=['GET', 'POST'])
 def sign_up():
     if current_user.is_authenticated:
-        return redirect(url_for('main'))
-    form = SignupForm()
-
+        return redirect(url_for('index'))
+    form = RegistrationForm()
     if form.validate_on_submit():
-        print('123213213213213213213213213213213213213')
-        user = User.query.filter(User.username == form.name.data).first()
-        if user:
-            print('Пользователь с таким именем уже зарегистрирован')
-            flash('Пользователь с таким именем уже зарегистрирован')
-            return redirect('register')
-        user = User.query.filter(User.email == form.name.data).first()
-        if user:
-            print('Пользователь с такой почтой уже зарегистрирован')
-            flash('Пользователь с такой почтой уже зарегистрирован')
-            return redirect('register')
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Поздравляем, вы зарегистрированы!')
         return redirect(url_for('login'))
-
-    return render_template('sign_up.html', form=form)
+    return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/cart/', methods=['GET', 'POST'])
