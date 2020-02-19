@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12 col-md-4 mt-5 offset-4">
+        <div class="card mb-3 shadow">
+            <img src="{{ url_for('static', filename = 'pictures/') }}{{ product.picture }}" width="300" height="260"
+                 class="card-img-top" alt="">
+            <div class="card-body">
+                <div class="h5 card-title text-center mb-3">{{ product.title }} в корзине</div>
+                <div class="row">
+                    <a href="{{ url_for('main') }}" role="button" class="btn btn-success p-1 m-2">Продолжить покупки</a>
+                    <a href="{{ url_for('cart') }}" role="button" class="btn btn-danger p-1 m-2">Оформить заказ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

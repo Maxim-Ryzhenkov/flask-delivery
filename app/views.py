@@ -100,7 +100,7 @@ def cart_add(product_id):
     purchases.append(product_id)
     session['cart'] = purchases
     flash(f'Товар "{product.title}" добавлен в корзину.')
-    return redirect(url_for('cart'))
+    return render_template('cart_updated.html', product=product)
 
 
 @app.route('/cart/remove/<int:product_id>')
